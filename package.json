@@ -1,0 +1,29 @@
+{
+  "name": "@barrerajulio/sequelize-restful-helper",
+  "version": "1.0.3",
+  "description": "This library helps you to build [Sequelize ORM](http://sequelizejs.com/) queries using http query parameters. It is useful for building APIs.",
+  "main": "src/RestfulHelper.js",
+  "author": "Vlad Fedosov <vlad.fedosov@gmail.com>",
+  "license": "UNLICENSED",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "mocha",
+    "test-junit": "MOCHA_FILE=test-result/mocha.test-report.xml mocha -R mocha-junit-reporter || echo \" Tests failed!\"",
+    "coverage": "NODE_ENV=test nyc cover --include-all-sources _mocha test/**/*.test.js -- -u exports || echo \" Tests failed!\"",
+    "preversion": "npm run test-ci",
+    "version": "git add -A ."
+  },
+  "devDependencies": {
+    "mocha": "^8.2.1",
+    "mocha-junit-reporter": "^2.0.0",
+    "nyc": "^15.1.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.20"
+  },
+  "peerDependencies": {
+    "sequelize": "^6.5.0"
+  }
+}
