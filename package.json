@@ -1,6 +1,6 @@
 {
   "name": "@barrerajulio/sequelize-restful-helper",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "This library helps you to build [Sequelize ORM](http://sequelizejs.com/) queries using http query parameters. It is useful for building APIs.",
   "main": "src/RestfulHelper.js",
   "author": "Vlad Fedosov <vlad.fedosov@gmail.com>",
