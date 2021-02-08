@@ -65,7 +65,8 @@ class SequelizeQueryBuilder {
             paginator: {
                 defaultPageSize: 30,
                 pageParam: 'page',
-                pageSizeParam: 'per-page',
+                pageSizeParam: 'limit',
+                offsetParam: 'offset',
                 pageSizeLimit: [1, 150]
             },
             model: null
@@ -77,6 +78,7 @@ class SequelizeQueryBuilder {
         this._options.allowedFilters = _.difference(this._options.allowedFilters, [
             this._options.orderParam,
             this._options.paginator.pageParam,
+            this._options.paginator.offsetParam,
             this._options.paginator.pageSizeParam
         ]);
 

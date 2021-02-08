@@ -7,13 +7,15 @@ function Paginator(queryParams, options) {
     this._options = _.merge({
         defaultPageSize: 30,
         pageParam: 'page',
-        pageSizeParam: 'per-page',
+        pageSizeParam: 'limit',
+        offsetParam: 'offset',
         pageSizeLimit: [1, 150]
     }, options || {});
 
     this._queryParams = queryParams;
     this._page = null;
     this._pageSize = null;
+    this._offset = null;
 }
 
 Paginator.prototype.getQueryParam = function (name, defaultValue) {
@@ -60,7 +62,6 @@ Paginator.prototype.getPageSize = function () {
 
 Paginator.prototype.setPageSize = function (pageSize, validatePageSize) {
     validatePageSize = validatePageSize || false;
-
     if (pageSize === null || pageSize === undefined) {
         this._pageSize = null;
     } else {
@@ -80,12 +81,28 @@ Paginator.prototype.setPageSize = function (pageSize, validatePageSize) {
 };
 
 Paginator.prototype.getOffset = function () {
-    const pageSize = this.getPageSize();
-    const offset = pageSize < 1 ? 0 : (this.getPage() - 1) * pageSize;
-    if (offset > Number.MAX_SAFE_INTEGER) {
-        throw new errors.InvalidArgumentError('Invalid offset argument. Should be positive Integer less then 2^53');
+    if (this._offset === null) {
+        if (!this._options.offsetParam) {
+            this.setOffset(0);
+        } else {
+            const offset = this.getQueryParam(this._options.offsetParam, 0);
+            this.setOffset(offset, true);
+        }
     }
-    return offset;
+    return this._offset;
+};
+
+Paginator.prototype.setOffset = function (offset, validateOffset) {
+    validateOffset = validateOffset || false;
+    if (offset === null || offset === undefined) {
+        this._offset = 0;
+    } else {
+        offset = parseInt(offset, 10);
+        if (Number.isNaN(offset) || offset < 0) {
+            offset = 0;
+        }
+        this._offset = offset;
+    }
 };
 
 Paginator.prototype.getLimit = function () {

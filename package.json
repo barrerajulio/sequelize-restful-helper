@@ -23,6 +23,9 @@
   "dependencies": {
     "lodash": "^4.17.20"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "peerDependencies": {
     "sequelize": "^6.5.0"
   }
