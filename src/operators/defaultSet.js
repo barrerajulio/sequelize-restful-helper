@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 const IdentityOperator = require('./identity').IdentityOperator;
+const InOperator = require('./in').InOperator;
 const StandardValueOperator = require('./standard').StandardValueOperator;
 
 
@@ -12,7 +13,8 @@ const stadardOperatorNames = Object.freeze({
     ':>': '$gte',
     '<': '$lt',
     ':<': '$lte',
-    '!': '$ne'
+    '!': '$ne',
+    '<<>>': '$in',
 });
 
 const stadardOperatorValidations = Object.freeze({
@@ -22,7 +24,8 @@ const stadardOperatorValidations = Object.freeze({
     ':>': /^:>(\.|\d).*$/,
     '<': /^<(\.|\d).*$/,
     ':<': /^:<(\.|\d).*$/,
-    '!': /^!.+$/
+    '!': /^!.+$/,
+    '<<>>': /^<<>>[A-Z0-9,]+$/,
 });
 
 const operatorsBySequelizeName = Object.keys(stadardOperatorNames)
@@ -36,6 +39,12 @@ const operatorsBySequelizeName = Object.keys(stadardOperatorNames)
         map[operatorOptions.sequelizeName] = new StandardValueOperator(operatorOptions);
         return map;
     }, {});
+operatorsBySequelizeName.$in = new InOperator({
+    name: "<<>>",
+    sequelizeName: "$in",
+    validationRegExp: /^<<>>[A-Z0-9,]+$/i,
+    argNumber: 2
+});
 operatorsBySequelizeName.$eq = new IdentityOperator();
 
 const standardOperators = _.values(operatorsBySequelizeName);
